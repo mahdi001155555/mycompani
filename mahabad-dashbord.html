@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>انبار محصول پتروشیمی مهاباد</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f0f4f8;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      color: #0f172a;
+    }
+    .section-list {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+    .section-btn {
+      width: 320px;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      background-color: #10b981;
+      color: white;
+      transition: 0.3s;
+    }
+    .section-btn:hover {
+      background-color: #059669;
+    }
+    .disabled {
+      background-color: #9ca3af !important;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <h1>انبار محصول پتروشیمی مهاباد</h1>
+  <h2>لطفاً یکی از بخش‌های زیر را انتخاب کنید</h2>
+
+  <div class="section-list">
+    <a href="forklift.html">
+      <button class="section-btn">📦 لیفتراک‌ها</button>
+    </a>
+    <a href="finance.html">
+      <button class="section-btn">💰 تراز مالی (ماهانه و سالانه)</button>
+    </a>
+    <button class="section-btn disabled">🔧 بخش سوم (در حال ساخت)</button>
+    <button class="section-btn disabled">📊 بخش چهارم (در حال ساخت)</button>
+  </div>
+</body>
+</html>

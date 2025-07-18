@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>فرم ثبت فاکتور حسابداری</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      direction: rtl;
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 16px;
+      background-color: #f9f9f9;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>فرم ثبت فاکتور حسابداری</h2>
+
+  <form id="accountingForm">
+    <label>نام لیفتراک:</label>
+    <select name="lift" required>
+      <option value="">-- انتخاب کنید --</option>
+      <option value="لیفتراک 1">لیفتراک 1</option>
+      <option value="لیفتراک 2">لیفتراک 2</option>
+      <option value="لیفتراک 3">لیفتراک 3</option>
+    </select>
+
+    <label>تاریخ:</label>
+    <input type="date" name="date" required>
+
+    <label>نوع هزینه:</label>
+    <input type="text" name="cost_type" placeholder="مثلاً خرید قطعه یا تعمیر">
+
+    <label>تعداد:</label>
+    <input type="number" name="quantity" id="quantity" required>
+
+    <label>فی (قیمت واحد):</label>
+    <input type="number" name="unit_price" id="unit_price" required>
+
+    <label>قیمت کل:</label>
+    <input type="number" id="total_price" name="total_price" readonly>
+
+    <label>نام فروشنده:</label>
+    <input type="text" name="vendor">
+
+    <label>توضیحات:</label>
+    <textarea name="description" rows="3"></textarea>
+
+    <button type="submit">ثبت اطلاعات</button>
+  </form>
+
+  <script>
+    const quantityInput = document.getElementById("quantity");
+    const unitPriceInput = document.getElementById("unit_price");
+    const totalPriceInput = document.getElementById("total_price");
+
+    quantityInput.addEventListener("input", calcTotal);
+    unitPriceInput.addEventListener("input", calcTotal);
+
+    function calcTotal() {
+      const q = parseFloat(quantityInput.value) || 0;
+      const p = parseFloat(unitPriceInput.value) || 0;
+      totalPriceInput.value = q * p;
+    }
+
+    document.getElementById("accountingForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const data = {};
+
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+
+      fetch("https://v1.nocodeapi.com/mahdiiii/google_sheets/uTgNoDdRetjtcyyN?tabId=Sheet1", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify([data])
+      })
+      .then(res => res.json())
+      .then(response => {
+        alert("اطلاعات با موفقیت ثبت شد ✅");
+        this.reset();
+        totalPriceInput.value = "";
+      })
+      .catch(error => {
+        alert("❌ خطا در ارسال اطلاعات");
+        console.error("خطا:", error);
+      });
+    });
+  </script>
+
+</body>
+</html>

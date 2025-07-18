@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>فرم گزارش سرویس لیفتراک</title>
+</head>
+<body>
+  <h2>فرم ثبت سرویس روزانه لیفتراک</h2>
+  <form id="serviceForm">
+    <label>کد لیفتراک:</label>
+    <input type="text" name="liftcode" required><br>
+
+    <label>تاریخ سرویس:</label>
+    <input type="date" name="date" required><br>
+
+    <label>نوع سرویس:</label>
+    <input type="text" name="servicetype"><br>
+
+    <label>قطعه یا بخش تعمیر شده:</label>
+    <input type="text" name="part"><br>
+
+    <label>توضیحات:</label>
+    <textarea name="description"></textarea><br>
+
+    <label>نام سرویس‌کار:</label>
+    <input type="text" name="worker" required><br>
+
+    <button type="submit">ارسال گزارش</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    document.getElementById("serviceForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const data = {};
+      formData.forEach((value, key) => data[key] = value);
+
+      fetch("https://v1.nocodeapi.com/mahdiiii/google_sheets/uTgNoDdRetjtcyyN?tabId=service", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify([[data.liftcode, data.date, data.servicetype, data.part, data.description, data.worker]])
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("result").innerText = "✅ گزارش با موفقیت ثبت شد.";
+        document.getElementById("serviceForm").reset();
+      })
+      .catch(err => {
+        document.getElementById("result").innerText = "❌ خطا در ثبت گزارش.";
+      });
+    });
+  </script>
+</body>
+</html>
